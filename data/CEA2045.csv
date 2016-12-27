@@ -1,0 +1,12 @@
+MsgTypeMSB,MsgTypeLSB,Opcode1,OpCode2,MsgDesc,Other
+0x08,0x01,0x01,val,Shed with duration value in seconds,Duration = 2*(val)squared
+,,0x01,0xFF,Shed forever,
+,,0x02,0x00,End Shed,
+,,0x03,val,Ack receipt of opcode ,
+,,0x04,0x00,Nack receipt of opcode no reason,
+,0x02,0x00,0x00,Intermediate DR Support Query,
+0x06,0x00,,,Ack,
+0x15,0x00,,,Nack No Reason,
+,0x02,,,Nack CheckSum,
+,0x06,,,Nack Unsupported Msg,
+,0x07,,,Nack Request Not Supported,

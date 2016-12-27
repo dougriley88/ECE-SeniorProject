@@ -1,0 +1,13 @@
+# C extensions
+*.o
+
+# Byte compiled Pythong
+*.py[cod]
+
+# log files
+*.log
+
+# temporary excel files
+*.osd
+
+
