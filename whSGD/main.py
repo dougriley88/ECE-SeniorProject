@@ -28,7 +28,7 @@ import argparse
 import whemulator
 
 def main():
-    emu = whemulator.emu(**vars(parse_args()))
+    emu = whemulator.Emu(**vars(parse_args()))
     emu.run()
 
 def parse_args():

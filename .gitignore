@@ -10,4 +10,8 @@
 # temporary excel files
 *.osd
 
+# Dev environment
+.project
+.pydevproject
+
 
