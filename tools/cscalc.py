@@ -18,9 +18,9 @@ def decode(cmd):
         cb1 = (cb1 + byte)%255
         cb2 = (cb2 + cb1)%255
     if ((cb1 == 0) and (cb2==0)):
-        print(1)
+        print('Pass')
     else:
-        print(0)
+        print('Fail')
 
 # Test code
 

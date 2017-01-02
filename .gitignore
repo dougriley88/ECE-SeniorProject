@@ -14,4 +14,6 @@
 .project
 .pydevproject
 
-
+# i/o files
+data/miso.txt
+data/mosi.txt

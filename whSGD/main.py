@@ -72,8 +72,13 @@ def parse_args():
     parser.add_argument("--CTA2045_byte",
         help="CTA 2045 byte code file name",
         dest="CTA2045_byte",
-        default='miso.txt',
+        default='CTA2045.csv',
         type=str) 
+    parser.add_argument("--CTA2045_debug",
+        help="CTA 2045 interface debug option",
+        dest="CTA2045_debug",
+        default=True,
+        type=bool)
 
     # Get and process the args
     args = parser.parse_args()

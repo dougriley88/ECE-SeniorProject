@@ -1,12 +1,9 @@
-MsgTypeMSB,MsgTypeLSB,Opcode1,OpCode2,MsgDesc,Other
-0x08,0x01,0x01,val,Shed with duration value in seconds,Duration = 2*(val)squared
-,,0x01,0xFF,Shed forever,
-,,0x02,0x00,End Shed,
-,,0x03,val,Ack receipt of opcode ,
-,,0x04,0x00,Nack receipt of opcode no reason,
-,0x02,0x00,0x00,Intermediate DR Support Query,
-0x06,0x00,,,Ack,
-0x15,0x00,,,Nack No Reason,
-,0x02,,,Nack CheckSum,
-,0x06,,,Nack Unsupported Msg,
-,0x07,,,Nack Request Not Supported,
+MsgName,MsgType,MsgTypeMSB,MsgTypeLSB,Opcode1,OpCode2,MsgDesc
+Shed,BasicDR,08,01,01,val,Shed with duration where duration is 2(value)**2
+EndShed,BasicDR,08,01,02,00,End Shed
+AppAck,BasicDR,08,01,03,val,Ack receipt of opcode (value)
+AppNack,BasicDR,08,01,04,00,Nack receipt of opcode no reason
+DLLAck,DLL,06,00,,,Data Link Ack
+DLLNack,DLL,15,06,,,Data Link Nack UnSupported Message Type
+DLLNackCS,DLL,15,03,,,Data Link Nack CheckSum Error
+DLLNackLen,DLL,15,02,,,Data Link Nack Invalid Length
