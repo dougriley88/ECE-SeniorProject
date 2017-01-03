@@ -27,13 +27,15 @@ class CTA2045(object):
         ctaOut = open(ctaOutName,'w')
         
         msgCodes = initByteCodes(ctaByteName)
+        logging.info("********CTA2045 MESSAGES********")
         for msg in msgCodes:
-            print msg
+            logging.info(msg)
+        logging.info("********************************")
             
         ctaDebug = (kwargs['CTA2045_debug'])
         
     def cleanup(self):
-        print 'Cleaning up cta2045 Interface'
+        logging.info("Cleaning up CTA2045 interface")
         ctaIn.close()
         ctaOut.close()
         
@@ -73,13 +75,13 @@ def receiveMsg(msg):
                 logging.info('Message has bad checksum, CTA2045 in debug mode, ignoring error')
             else:
                 logging.info('Message has bad checksum, sending DLLNackCS')
-                dllMsg = [0x15,0x03]
+                dllMsg = ['15', '03']
                 return appMsg,dllMsg
         # remove checksum bytes from msg
         mbytes.pop(); mbytes.pop()
         if not payloadCheck(mbytes):
             logging.info('Message has invalid length, sending DLLNackLen')
-            dllMsg = [0x15,0x02]
+            dllMsg = ['15', '02']
             return appMsg,dllMsg
         
     '''Message passes muster, now determine if valid'''    
@@ -97,18 +99,19 @@ def receiveMsg(msg):
                     # TODO: Extend for intermediate DR, and app query as needed
                     if row['MsgType'] == 'BasicDR' and row['Opcode1'] == mbytes[4]:
                         logging.info('Received message:' + row['MsgName'] + ', Opcode2:' + mbytes[5])
-                        dllMsg = [0x06,0x00]
+                        dllMsg = ['06','02']
                         appMsg['MsgName'] = row['MsgName']
+                        appMsg['MsgType'] = row['MsgType']
+                        appMsg['Opcode1'] = mbytes[4]
                         appMsg['Opcode2'] = mbytes[5]
                         return appMsg,dllMsg
     
     ''' Fall-thru, no valid message match'''
     logging.info('Unsupported or invalid message, sending DLLNack')
-    dllMsg = [0x15,0x06]
+    dllMsg = ['15', '02']
     return appMsg, dllMsg                                       
         
 def csCheck(msgBytes):
-    logging.info('Performing checksum check')
     cb1 = 0xaa
     cb2 = 0x0
     for byte in msgBytes:
@@ -120,6 +123,16 @@ def csCheck(msgBytes):
     else:
         return False
     
+def csCalc(msgBytes):
+    cb1 = 0xaa
+    cb2 = 0x0
+    for byte in msgBytes:
+        cb1 = (cb1 + int(byte,16))%255
+        cb2 = (cb2 + cb1)%255
+    mscb = 255 - ((cb1+cb2)%255)
+    lscb = 255 - ((cb1+mscb)%255)
+    return format(mscb,'02x'),format(lscb,'02x')
+        
 def payloadCheck(msgBytes):
     if len(msgBytes) < 4:
         return False
@@ -134,18 +147,37 @@ def sendMsg(byteList):
     ''' byteList contains a list of 2 digit hex byte values '''
     outstr = ""
     for byte in byteList:
-        outstr = outstr + format(byte,'02x') + ' '
+        outstr = outstr + byte + ' '
     ctaOut.write(outstr + '\n')
         
-def sendAppMsg():  
+def sendAppMsg(msg):  
     ''' converts an application message for sending to DLL '''
-    print "Sending application message\n"
-    # calcuate payload length
-    # calucated checksum
-    # create byteList
-    #sendMsg  
+    if not msg:
+        logging.error('Send application message error: empty message')
+        return
+   
+    msgBytes = []
+    for row in msgCodes:
+        if msg['MsgName'] == row['MsgName']:
+            '''Valid message'''
+            msgBytes = [row['MsgTypeMSB'],row['MsgTypeLSB']]
+            if row['MsgType'] == 'BasicDR':
+                '''Add payload length'''
+                msgBytes = msgBytes + ['00', '02']
+            else: 
+                logging.error("Application Message Send error, unsupported type " + row['MsgTYpe'])
+                return
+            ''' Add opcodes '''
+            msgBytes = msgBytes + [row['Opcode1'], msg['Opcode2']]
+            ''' Add Checksum '''
+            mscb, lscb = csCalc(msgBytes)
+            logging.info("Sending Application Message: " + msg['MsgName'] )            
+            msgBytes = msgBytes + [mscb,lscb]
+            sendMsg(msgBytes)
+            return
+    ''' Message not found'''
+    logging.error("Application Message Send error, invalid name " + msg['MsgName'])
     
-                
         
     
         

@@ -22,7 +22,10 @@ def update(appMsg):
     return (appResp)
 
 def handleMsg(appMsg):
-    return {}
+    ''' Handles the message and generates a response message to send'''
+    #TODO: Add Code here for handling message
+    appResp = {'MsgName':'AppAck','Opcode2':appMsg['Opcode1']}
+    return appResp
 
 
                 
