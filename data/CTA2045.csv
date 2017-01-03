@@ -1,0 +1,9 @@
+MsgName,MsgType,MsgTypeMSB,MsgTypeLSB,Opcode1,Opcode2,MsgDesc
+Shed,BasicDR,08,01,01,val,Shed with duration where duration is 2(value)**2
+EndShed,BasicDR,08,01,02,0,End Shed
+AppAck,BasicDR,08,01,03,val,Ack receipt of opcode (value)
+AppNack,BasicDR,08,01,04,0,Nack receipt of opcode no reason
+DLLAck,DLL,06,00,,,Data Link Ack
+DLLNack,DLL,15,06,,,Data Link Nack UnSupported Message Type
+DLLNackCS,DLL,15,03,,,Data Link Nack CheckSum Error
+DLLNackLen,DLL,15,02,,,Data Link Nack Invalid Length

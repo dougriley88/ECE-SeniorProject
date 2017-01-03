@@ -17,7 +17,7 @@ Requires python 2.7
 $ cd whSGDemulator/whSGD
 $ python main.py --help
 ```
-Simple file i/o is used to emulate the SPI interface where the SGD is the slave, and the UCM is the master.  One file is used for the transfer of bytes from the UCM to the SGD (defaults to MOSI.txt), and the other from the SGD to the UCM (defaults to MISO.txt).
+Simple file i/o is used to emulate the SPI interface where the SGD is the slave, and the UCM is the master.  One file is used for the transfer of bytes from the UCM to the SGD (defaults to mosi.txt), and the other from the SGD to the UCM (defaults to miso.txt).
 
 
 

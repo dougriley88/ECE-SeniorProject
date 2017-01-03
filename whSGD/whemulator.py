@@ -20,35 +20,42 @@ __license__ = 'CreativeCommons'
 import logging
 import time
 
-#import environment
-#import cta2045
+import environment
+import cta2045
+import waterheater as wh
 
 
-class emu(object):
+
+class Emu(object):
     ''' Water Heater Emulator '''
     def __init__(self, **kwargs):
+        
+        self.run_time = (kwargs['run_time'])
         # Set up emulation environment
         env_args = (kwargs['time_scale'])
-        #self._environment = environment.setup_environment(*env_args)
+        self._environment = environment.setup_environment(env_args)
 
-        # Set up CTA 2045 Inteface
-        #cta_args = (kwargs['CTA2045_in'],kwargs['CTA2045_out'],kwargs['CTA2045_byte'])
-        #self._cta2045= cta2045.setup(*cta_args)
-        print "initializing emu class\n"
+        # Set up CTA 2045 interface
+        self.ctaInterface= cta2045.CTA2045(**kwargs)
+        self.wh = wh.WaterHeater(**kwargs)
 
     def run(self):
         try:
-            for time_step in range(1,10):
-                #do_timestep()
-                print "running emulation\n"
-                # TODO: add to environment
-		time.sleep(1)
+            for time_step in range(1,self.run_time):
+                self.do_timestep(time_step)
         except KeyboardInterrupt:
             logging.info('Emulation Interrupted')
             pass
         finally:
-            '''Write output to file '''
+            '''close up shop '''
+            self.ctaInterface.cleanup()
 
-        
+    def do_timestep(self,time_step):
+        logging.info('Emulation seconds: {0}'.format(time_step))
+        appMsg = cta2045.checkInterface()
+        appResp = wh.update(appMsg)
+        if appResp:
+            cta2045.sendAppMsg(appResp)
+        time.sleep(1)  
         
 

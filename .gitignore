@@ -5,6 +5,9 @@
 # temporary excel files
 *.osd
 
+# Dev environment
+.project
+.pydevproject
 
 
 # Byte-compiled / optimized / DLL files
@@ -96,4 +99,8 @@ ENV/
 
 # Rope project settings
 .ropeproject
+
+# i/o files
+data/miso.txt
+data/mosi.txt
 
