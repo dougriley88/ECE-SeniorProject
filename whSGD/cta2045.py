@@ -24,7 +24,8 @@ class CTA2045(object):
         ''' file streams should remain open during emulation, so making them global'''
         global ctaIn, ctaOut, msgCodes, ctaDebug
         ctaIn = open(ctaInName,'r')
-        ctaOut = open(ctaOutName,'w')
+        ''' opens the file with append if it exists, no OS buffering '''
+        ctaOut = open(ctaOutName,'a',0)
         
         msgCodes = initByteCodes(ctaByteName)
         logging.info("********CTA2045 MESSAGES********")
@@ -36,8 +37,8 @@ class CTA2045(object):
         
     def cleanup(self):
         logging.info("Cleaning up CTA2045 interface")
-        ctaIn.close()
-        ctaOut.close()
+        '''ctaIn.close()'''
+        '''ctaOut.close()'''
         
 def initByteCodes(ctaByteFile):
     '''Obtains supported byte codes from byte code file'''
@@ -99,6 +100,7 @@ def receiveMsg(msg):
                     # TODO: Extend for intermediate DR, and app query as needed
                     if row['MsgType'] == 'BasicDR' and row['Opcode1'] == mbytes[4]:
                         logging.info('Received message:' + row['MsgName'] + ', Opcode2:' + mbytes[5])
+                        logging.info('Sending DLLAck');
                         dllMsg = ['06','02']
                         appMsg['MsgName'] = row['MsgName']
                         appMsg['MsgType'] = row['MsgType']
