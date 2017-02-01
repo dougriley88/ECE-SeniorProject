@@ -5,7 +5,7 @@ Simulation of an electric water heater connected as a Smart Grid Device (SGD)
 * V-Squared, Portland Oregon
 * Winter/Spring 2017
 
-This project contains the a program and associated files for the emulation of a water heater that is controlled to support grid conditions.  The water heater in this case supports CTA2045 (formerly USNAP) which is uses a serial interface (SPI) to transfers commands and status between the water heater (the Smart Grid Device, or SGD), and a Universal Communications Module (UCM).  
+This project contains the program and associated files for the emulation of a water heater that is controlled to support grid conditions.  The water heater in this case supports CTA2045 (formerly USNAP) which uses a serial interface (SPI) to transfer commands and status between the water heater (the Smart Grid Device, or SGD), and a Universal Communications Module (UCM).  
 
 ## Project Setup (Linux)
 
