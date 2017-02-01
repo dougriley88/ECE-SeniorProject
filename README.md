@@ -1,4 +1,4 @@
-# ewhSGDsimulation
+# whSGDemulator
 Simulation of an electric water heater connected as a Smart Grid Device (SGD)
 
 * Portland State University, Department of Electrical Engineering
