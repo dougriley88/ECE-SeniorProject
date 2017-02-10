@@ -8,7 +8,7 @@ class WaterHeater(object):
     '''Emulates the WaterHeater Application layer'''
     def __init__(self,**kwargs):
         
-        logging.info("Initializing Water Heater Aplication")
+        logging.info("Initializing Water Heater Application")
         self.whmodel = whmodel.WHModel(**kwargs)
         
         
